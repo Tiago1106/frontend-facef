@@ -43,8 +43,8 @@ const Services: React.FC = () => {
       <Container>
         <Card>
           <AreaTop>
-            <Title>Lista de prestadores</Title>
-            <Button onClick={() => history.push('/createUser')}>NOVO</Button>
+            <Title>Lista de serviços</Title>
+            <Button onClick={() => history.push('/createService')}>NOVO</Button>
           </AreaTop>
           <CardUsers>
             <thead>

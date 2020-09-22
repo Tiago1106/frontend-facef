@@ -44,8 +44,10 @@ const Provider: React.FC = () => {
       <Container>
         <Card>
           <AreaTop>
-            <Title>Lista de serviços</Title>
-            <Button onClick={() => history.push('/createUser')}>NOVO</Button>
+            <Title>Lista de prestadores</Title>
+            <Button onClick={() => history.push('/createProvider')}>
+              NOVO
+            </Button>
           </AreaTop>
           <CardUsers>
             <thead>

@@ -11,12 +11,12 @@ import { Container, Card, Title, AreaTop, CardUsers } from './styles';
 
 interface SchedulingProps {
   id: string;
-  id_user: string;
-  id_provider: string;
-  id_service: string;
+  name_user: string;
+  name_provider: string;
+  name_service: string;
   scheduled_date: string;
   appointment: string;
-  description: string;
+  obsertation: string;
 }
 
 const Scheduling: React.FC = () => {
@@ -33,8 +33,7 @@ const Scheduling: React.FC = () => {
   }, []);
 
   async function deleteScheduling(idScheduling: string): Promise<void> {
-    console.log('aqui bb');
-    await api.delete(`/sheduling/${idScheduling}`);
+    await api.delete(`/scheduling/${idScheduling}`);
     getScheduling();
   }
 
@@ -45,7 +44,9 @@ const Scheduling: React.FC = () => {
         <Card>
           <AreaTop>
             <Title>Lista de agendamentos</Title>
-            <Button onClick={() => history.push('/createUser')}>NOVO</Button>
+            <Button onClick={() => history.push('/createSchedulings')}>
+              NOVO
+            </Button>
           </AreaTop>
           <CardUsers>
             <thead>
@@ -62,12 +63,12 @@ const Scheduling: React.FC = () => {
             <tbody>
               {schedulings.map((scheduling: SchedulingProps) => (
                 <tr key={scheduling.id}>
-                  <td>Tiago</td>
-                  <td>Yuri Prestador</td>
-                  <td>Corte masculino</td>
+                  <td>{scheduling.name_user}</td>
+                  <td>{scheduling.name_provider}</td>
+                  <td>{scheduling.name_service}</td>
                   <td>{scheduling.scheduled_date}</td>
                   <td>{scheduling.appointment}</td>
-                  <td>{scheduling.description}</td>
+                  <td>{scheduling.obsertation}</td>
 
                   <div>
                     <AiFillEdit color="#fff" size={30} />
