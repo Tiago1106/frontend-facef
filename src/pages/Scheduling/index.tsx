@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import { useHistory } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import Button from '../../components/Button';
@@ -19,6 +20,7 @@ interface SchedulingProps {
 }
 
 const Scheduling: React.FC = () => {
+  const history = useHistory();
   const [schedulings, setScheduling] = useState<SchedulingProps[]>([]);
 
   async function getScheduling(): Promise<void> {
@@ -43,7 +45,7 @@ const Scheduling: React.FC = () => {
         <Card>
           <AreaTop>
             <Title>Lista de agendamentos</Title>
-            <Button name="NOVO" />
+            <Button onClick={() => history.push('/createUser')}>NOVO</Button>
           </AreaTop>
           <CardUsers>
             <thead>

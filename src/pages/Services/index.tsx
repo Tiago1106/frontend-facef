@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
 
 import Header from '../../components/Header';
@@ -15,8 +16,8 @@ interface ServicesProps {
   duraction: string;
   value: string;
 }
-
 const Services: React.FC = () => {
+  const history = useHistory();
   const [services, setServices] = useState<ServicesProps[]>(
     [] as ServicesProps[],
   );
@@ -43,7 +44,7 @@ const Services: React.FC = () => {
         <Card>
           <AreaTop>
             <Title>Lista de prestadores</Title>
-            <Button name="NOVO" />
+            <Button onClick={() => history.push('/createUser')}>NOVO</Button>
           </AreaTop>
           <CardUsers>
             <thead>

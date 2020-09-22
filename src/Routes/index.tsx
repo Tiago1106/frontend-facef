@@ -7,6 +7,8 @@ import Providers from '../pages/Providers';
 import Services from '../pages/Services';
 import Schedulings from '../pages/Scheduling';
 
+import CreateUser from '../pages/Users/Create';
+
 const Routes: React.FC = () => {
   const history = createBrowserHistory();
 
@@ -17,6 +19,8 @@ const Routes: React.FC = () => {
         <Route path="/providers" exact component={Providers} />
         <Route path="/services" exact component={Services} />
         <Route path="/schedulings" exact component={Schedulings} />
+
+        <Route path="/createUser" exact component={CreateUser} />
       </Switch>
     </Router>
   );

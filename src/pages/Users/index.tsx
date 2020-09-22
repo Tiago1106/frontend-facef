@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import { useHistory } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import Button from '../../components/Button';
@@ -16,6 +17,7 @@ interface UserProps {
 }
 
 const Users: React.FC = () => {
+  const history = useHistory();
   const [users, setUsers] = useState<UserProps[]>([]);
 
   async function getUsers(): Promise<void> {
@@ -40,7 +42,7 @@ const Users: React.FC = () => {
         <Card>
           <AreaTop>
             <Title>Lista de usuários</Title>
-            <Button name="NOVO" />
+            <Button onClick={() => history.push('/createUser')}>NOVO</Button>
           </AreaTop>
           <CardUsers>
             <thead>
