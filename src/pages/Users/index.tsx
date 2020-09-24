@@ -35,6 +35,10 @@ const Users: React.FC = () => {
     getUsers();
   }
 
+  function editUser(idUser: string): void {
+    history.push(`/editUser/${idUser}`);
+  }
+
   return (
     <>
       <Header />
@@ -60,14 +64,22 @@ const Users: React.FC = () => {
                   <td>{user.email}</td>
                   <td>{user.cpf}</td>
 
-                  <div>
-                    <AiFillEdit color="#fff" size={30} />
-                    <AiFillDelete
-                      color="#fff"
-                      size={30}
-                      onClick={() => deleteUser(user.id)}
-                    />
-                  </div>
+                  <td>
+                    <div>
+                      <AiFillEdit
+                        color="#fff"
+                        size={30}
+                        onClick={() => {
+                          editUser(user.id);
+                        }}
+                      />
+                      <AiFillDelete
+                        color="#fff"
+                        size={30}
+                        onClick={() => deleteUser(user.id)}
+                      />
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

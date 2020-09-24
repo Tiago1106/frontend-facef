@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import Header from '../../../components/Header';
 import Input from '../../../components/Input';
@@ -11,15 +11,61 @@ import { cpfMask, celPhoneMask } from '../../../utils/formats';
 
 import { Container, Card, Title, AreaTop } from './styles';
 
+interface ParamsProvider {
+  id: string;
+}
+
+export interface Provider {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  description?: string;
+  opening_hours: Date;
+  permission: string;
+  score: string;
+  cnpj?: string;
+  cpf?: string;
+  cellphone: string;
+  _id: string;
+}
+
 const Create: React.FC = () => {
   const history = useHistory();
-  const [selectState, setSelect] = useState();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [cellphone, setCellphone] = useState('');
-  const [description, setDescription] = useState('');
-  const [password, setPassword] = useState('');
+  const { id }: ParamsProvider = useParams();
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [cpf, setCpf] = useState<string | undefined>('');
+  const [cellphone, setCellphone] = useState<string | undefined>('');
+  const [description, setDescription] = useState<string | undefined>('');
+  const [password, setPassword] = useState<string>('');
+
+  const [provider, setProvider] = useState<Provider>({} as Provider);
+
+  useEffect(() => {
+    async function getProvider(): Promise<void> {
+      const { data } = await api.get(`/provider/${id}`);
+
+      setProvider(data);
+    }
+
+    getProvider();
+  }, [id]);
+
+  useEffect(() => {
+    if (provider) {
+      setCpf(provider.cpf);
+      setName(provider.name);
+      setEmail(provider.email);
+      setPassword(provider.password);
+      if (provider.description !== undefined || provider.description !== null) {
+        setDescription(provider.description);
+      }
+      if (provider.cellphone !== undefined || provider.cellphone !== null) {
+        setCellphone(provider.cellphone);
+      }
+    }
+  }, [provider]);
 
   async function postProvider(): Promise<void> {
     const data = {
@@ -27,6 +73,7 @@ const Create: React.FC = () => {
       email,
       password,
       description,
+      cellphone,
       permission: 'provider',
       score: '5',
       cpf,
@@ -41,6 +88,23 @@ const Create: React.FC = () => {
     }
   }
 
+  async function editProvoder(): Promise<void> {
+    const data = {
+      name,
+      email,
+      password,
+      description,
+      cpf,
+      cellphone,
+    };
+
+    await api.put(`/provider/${provider._id}`, {
+      cellphone,
+    });
+
+    history.push('/providers');
+  }
+
   return (
     <>
       <Header />
@@ -50,48 +114,60 @@ const Create: React.FC = () => {
             <FiArrowLeft
               color="#fff"
               size={20}
-              onClick={() => history.back()}
+              onClick={() => history.push('/providers')}
             />
-            <Title>Cadastrar usuário</Title>
+            <Title>
+              {provider ? 'Editar prestador' : 'Cadastrar prestador'}
+            </Title>
           </AreaTop>
           <Input
             name="name"
             placeholder="Nome"
             onChange={(e) => setName(e.target.value)}
+            value={name}
           />
           <Input
             name="email"
             placeholder="E-mail"
             onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
           <Input
             name="cpf"
             placeholder="CPF"
-            value={cpfMask(cpf)}
             maxLength={14}
-            onChange={(e) => setCpf(e.target.value)}
+            onChange={(e) => setCpf(cpfMask(e.target.value))}
+            value={cpf}
           />
           <Input
             name="phone"
             placeholder="Telefone"
-            value={celPhoneMask(cellphone)}
             maxLength={14}
-            onChange={(e) => setCellphone(e.target.value)}
+            onChange={(e) => setCellphone(celPhoneMask(e.target.value))}
+            value={cellphone}
           />
           <TextArea
             name="description"
             placeholder="Descrição"
             onChange={(e) => setDescription(e.target.value)}
+            value={description}
           />
           <Input
             name="password"
-            placeholder="Password"
+            placeholder="Senha"
             onChange={(e) => setPassword(e.target.value)}
             type="password"
+            value={password}
           />
-          <Button name="cadastraR" onClick={() => postProvider()}>
-            CADASTRAR
-          </Button>
+          {provider ? (
+            <Button name="cadastraR" onClick={() => editProvoder()}>
+              EDITAR
+            </Button>
+          ) : (
+            <Button name="cadastraR" onClick={() => postProvider()}>
+              CADASTRAR
+            </Button>
+          )}
         </Card>
       </Container>
     </>

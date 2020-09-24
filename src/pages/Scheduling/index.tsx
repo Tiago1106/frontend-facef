@@ -37,6 +37,10 @@ const Scheduling: React.FC = () => {
     getScheduling();
   }
 
+  function editScheduling(idScheduling: string): void {
+    history.push(`/editSchedulings/${idScheduling}`);
+  }
+
   return (
     <>
       <Header />
@@ -71,7 +75,13 @@ const Scheduling: React.FC = () => {
                   <td>{scheduling.obsertation}</td>
 
                   <div>
-                    <AiFillEdit color="#fff" size={30} />
+                    <AiFillEdit
+                      color="#fff"
+                      size={30}
+                      onClick={() => {
+                        editScheduling(scheduling.id);
+                      }}
+                    />
                     <AiFillDelete
                       color="#fff"
                       size={30}

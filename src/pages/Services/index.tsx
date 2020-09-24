@@ -37,6 +37,10 @@ const Services: React.FC = () => {
     getServices();
   }
 
+  function editService(idService: string): void {
+    history.push(`/editService/${idService}`);
+  }
+
   return (
     <>
       <Header />
@@ -65,7 +69,13 @@ const Services: React.FC = () => {
                   <td>{`R$${Number(service.value).toFixed(2)}`}</td>
 
                   <div>
-                    <AiFillEdit color="#fff" size={30} />
+                    <AiFillEdit
+                      color="#fff"
+                      size={30}
+                      onClick={() => {
+                        editService(service.id);
+                      }}
+                    />
                     <AiFillDelete
                       color="#fff"
                       size={30}

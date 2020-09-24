@@ -33,9 +33,12 @@ const Provider: React.FC = () => {
   }, []);
 
   async function deleteProvider(idProvider: string): Promise<void> {
-    console.log('aqui bb');
     await api.delete(`/provider/${idProvider}`);
     getProviders();
+  }
+
+  function editProvider(idProvider: string): void {
+    history.push(`/editProvider/${idProvider}`);
   }
 
   return (
@@ -66,15 +69,20 @@ const Provider: React.FC = () => {
                   <td>{provider.email}</td>
                   <td>{provider.cpf}</td>
                   <td>{provider.score}</td>
-
-                  <div>
-                    <AiFillEdit color="#fff" size={30} />
-                    <AiFillDelete
-                      color="#fff"
-                      size={30}
-                      onClick={() => deleteProvider(provider.id)}
-                    />
-                  </div>
+                  <td>
+                    <div>
+                      <AiFillEdit
+                        color="#fff"
+                        size={30}
+                        onClick={() => editProvider(provider.id)}
+                      />
+                      <AiFillDelete
+                        color="#fff"
+                        size={30}
+                        onClick={() => deleteProvider(provider.id)}
+                      />
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

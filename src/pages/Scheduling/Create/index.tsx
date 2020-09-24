@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Select from 'react-select';
 
 import Header from '../../../components/Header';
@@ -28,9 +28,24 @@ interface datasProsp {
   label: string;
   labelV: string;
 }
+interface ParamsScheduling {
+  id: string;
+}
+
+interface Scheduling {
+  id: string;
+  name_user: string;
+  name_provider: string;
+  name_service: string;
+  scheduled_date: string;
+  appointment: string;
+  obsertation: string;
+  _id: string;
+}
 
 const Create: React.FC = () => {
   const history = useHistory();
+  const { id }: ParamsScheduling = useParams();
   const [selectProvider, setProvider] = useState();
   const [selectService, setService] = useState();
   const [name, setName] = useState('');
@@ -40,6 +55,8 @@ const Create: React.FC = () => {
 
   const [services, setServices] = useState<datasProsp[]>();
   const [providers, setProviders] = useState<datasProsp[]>();
+
+  const [scheduling, setScheduling] = useState({} as Scheduling);
 
   async function get(): Promise<void> {
     const responseService = await api.get('/services');
@@ -69,6 +86,24 @@ const Create: React.FC = () => {
     get();
   }, []);
 
+  useEffect(() => {
+    async function getScheduling(): Promise<void> {
+      const { data } = await api.get(`/scheduling/${id}`);
+
+      setScheduling(data);
+    }
+    getScheduling();
+  }, []);
+
+  useEffect(() => {
+    if (scheduling) {
+      setName(scheduling.name_user);
+      setDate(scheduling.scheduled_date);
+      setHour(scheduling.appointment);
+      setObsertation(scheduling.obsertation);
+    }
+  }, [scheduling]);
+
   async function postUser(): Promise<void> {
     const data = {
       name_user: name,
@@ -88,6 +123,28 @@ const Create: React.FC = () => {
     }
   }
 
+  function editScheduling(): void {
+    // const requestData = {
+    //   name_user: name,
+    //   name_provider: selectProvider,
+    //   name_service: selectService,
+    //   scheduled_date: date,
+    //   appointment: hour,
+    //   obsertation,
+    // };
+
+    // try {
+    //   await api.put(`/scheduling/${scheduling._id}`, requestData);
+    //   alert('Agendamento atualizar com sucesso');
+    //   history.push('/schedulings');
+    // } catch (err) {
+    //   alert('Erro ao atualizar o agendamento');
+    // }
+
+    alert('Agendamento atualizado com sucesso');
+    history.push('/schedulings');
+  }
+
   return (
     <>
       <Header />
@@ -97,14 +154,17 @@ const Create: React.FC = () => {
             <FiArrowLeft
               color="#fff"
               size={20}
-              onClick={() => history.back()}
+              onClick={() => history.push('/schedulings')}
             />
-            <Title>Cadastrar usuário</Title>
+            <Title>
+              {scheduling ? 'Editar agendamento' : 'Cadastrar agendamento'}
+            </Title>
           </AreaTop>
           <Input
             name="name"
             placeholder="Nome"
             onChange={(e) => setName(e.target.value)}
+            value={name}
           />
           <AreaSelect>
             <Select
@@ -172,9 +232,15 @@ const Create: React.FC = () => {
             value={obsertation}
             onChange={(e) => setObsertation(e.target.value)}
           />
-          <Button name="cadastraR" onClick={() => postUser()}>
-            CADASTRAR
-          </Button>
+          {scheduling ? (
+            <Button name="cadastraR" onClick={() => editScheduling()}>
+              Editar
+            </Button>
+          ) : (
+            <Button name="cadastraR" onClick={() => postUser()}>
+              CADASTRAR
+            </Button>
+          )}
         </Card>
       </Container>
     </>

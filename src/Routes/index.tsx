@@ -16,19 +16,22 @@ const Routes: React.FC = () => {
   const history = createBrowserHistory();
 
   return (
-    <Router history={history}>
-      <Switch>
-        <Route path="/" exact component={Users} />
-        <Route path="/providers" exact component={Providers} />
-        <Route path="/services" exact component={Services} />
-        <Route path="/schedulings" exact component={Schedulings} />
+    <Switch>
+      <Route path="/" exact component={Users} />
+      <Route path="/providers" exact component={Providers} />
+      <Route path="/services" exact component={Services} />
+      <Route path="/schedulings" exact component={Schedulings} />
 
-        <Route path="/createUser" exact component={CreateUser} />
-        <Route path="/createService" exact component={CreateService} />
-        <Route path="/createProvider" exact component={CreateProvider} />
-        <Route path="/createSchedulings" exact component={CreateSchedulings} />
-      </Switch>
-    </Router>
+      <Route path="/createUser" exact component={CreateUser} />
+      <Route path="/createService" exact component={CreateService} />
+      <Route path="/createProvider" exact component={CreateProvider} />
+      <Route path="/createSchedulings" exact component={CreateSchedulings} />
+
+      <Route path="/editUser/:id" exact component={CreateUser} />
+      <Route path="/editService/:id" exact component={CreateService} />
+      <Route path="/editProvider/:id" exact component={CreateProvider} />
+      <Route path="/editSchedulings/:id" exact component={CreateSchedulings} />
+    </Switch>
   );
 };
 
