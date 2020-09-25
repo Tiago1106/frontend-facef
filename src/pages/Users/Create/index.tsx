@@ -102,10 +102,15 @@ const Create: React.FC = () => {
   }
 
   async function editUser(): Promise<void> {
+    const responseUser = {
+      name,
+      email,
+      password,
+      gender: selectState,
+      cpf,
+    };
     try {
-      const { data } = await api.put(`/users/${user._id}`, {
-        email, // só email por causa do mongo fdp
-      });
+      const { data } = await api.put(`/users/${user._id}`, responseUser);
       alert('atualizado com sucesso');
       history.push('/');
     } catch (err) {

@@ -73,19 +73,19 @@ const Create: React.FC = () => {
   }
 
   async function editService(): Promise<void> {
-    // const requestData = {
-    //   name_service: name,
-    //   description,
-    //   duraction,
-    //   value,
-    // };
-    // try {
-    //   await api.put(`/services/${service._id}`, data);
-    //   alert('Serviço atualizado com sucesso');
-    //   history.push('/services');
-    // } catch (error) {
-    //   alert('Erro ao atualizar serviço');
-    // }
+    const requestData = {
+      name_service: name,
+      description,
+      duraction,
+      value,
+    };
+    try {
+      await api.put(`/services/${service._id}`, requestData);
+      alert('Serviço atualizado com sucesso');
+      history.push('/services');
+    } catch (error) {
+      alert('Erro ao atualizar serviço');
+    }
     history.push('/services');
   }
 

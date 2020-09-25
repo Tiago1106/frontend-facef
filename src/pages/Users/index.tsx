@@ -30,7 +30,6 @@ const Users: React.FC = () => {
   }, []);
 
   async function deleteUser(idUser: string): Promise<void> {
-    console.log('aqui bb');
     await api.delete(`/users/${idUser}`);
     getUsers();
   }
@@ -52,8 +51,8 @@ const Users: React.FC = () => {
             <thead>
               <tr>
                 <th>Nome</th>
-                <th>CPF</th>
                 <th>Email</th>
+                <th>CPF</th>
               </tr>
             </thead>
 

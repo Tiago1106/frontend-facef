@@ -98,9 +98,7 @@ const Create: React.FC = () => {
       cellphone,
     };
 
-    await api.put(`/provider/${provider._id}`, {
-      cellphone,
-    });
+    await api.put(`/provider/${provider._id}`, data);
 
     history.push('/providers');
   }
